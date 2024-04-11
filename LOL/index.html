@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Sign-up Sheet</title>
+<style>
+  input[type="text"], select {
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 200px;
+    border: 1px solid #ccc; /* Add default border */
+  }
+  input[type="submit"], input[type="reset"] {
+    margin-top: 10px;
+    padding: 5px 10px;
+  }
+  .error {
+    border: 2px solid red !important; /* Ensure red border is applied */
+  }
+  .success {
+    border: 2px solid green !important; /* Ensure green border is applied */
+  }
+</style>
+</head>
+<body>
+
+<form id="signupForm">
+  <fieldset>
+    <legend>Sign Up</legend>
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" required><br>
+    <label for="username">Username:</label><br>
+    <input type="text" id="username" required><br>
+    <label for="email">Email:</label><br>
+    <input type="text" id="email" required><br>
+    <label for="gender">Gender:</label><br>
+    <select id="gender" required>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+      <option value="not_specified">Prefer not to mention</option>
+    </select><br>
+    <label for="address">Your Address:</label><br>
+    <input type="text" id="address" required><br>
+    <label for="interests">Interests:</label><br>
+    <input type="text" id="interests" required><br>
+    <p>By signing up, you agree to our Terms of Service and our Privacy Policy.</p>
+    <input type="submit" value="Submit">
+    <input type="reset" value="Reset">
+
+  </fieldset>
+</form>
+
+<div id="output"></div>
+
+<script>
+  document.getElementById('signupForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    var name = document.getElementById('name').value;
+    var username = document.getElementById('username').value;
+    var email = document.getElementById('email').value;
+    var gender = document.getElementById('gender').value;
+    var address = document.getElementById('address').value;
+    var interests = document.getElementById('interests').value;
+    
+    var outputDiv = document.getElementById('output');
+    outputDiv.innerHTML = `
+      <h2>Information provided:</h2>
+      <p>Name: ${name}</p>
+      <p>Username: ${username}</p>
+      <p>Email: ${email}</p>
+      <p>Gender: ${gender}</p>
+      <p>Address: ${address}</p>
+      <p>Interests: ${interests}</p>
+    `;
+  });
+
+  var inputs = document.querySelectorAll('input[type="text"], select');
+  inputs.forEach(input => {
+    input.addEventListener('blur', function() {
+      if (this.value === '') {
+        this.classList.add('error');
+        this.classList.remove('success');
+      }
+    });
+    input.addEventListener('focus', function() {
+      this.classList.remove('error');
+      if (this.value !== '' && this.value.trim() !== '') { /* Check for non-empty and non-whitespace input */
+        this.classList.add('success');
+      }
+    });
+  });
+
+  document.getElementById('signupForm').addEventListener('reset', function() {
+    var inputs = document.querySelectorAll('input[type="text"], select');
+    inputs.forEach(input => {
+      input.classList.remove('error', 'success');
+    });
+    document.getElementById('output').innerHTML = '';
+  });
+</script>
+<link rel="stylesheet" href="style.css">
+</body>
+</html>
